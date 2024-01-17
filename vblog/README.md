@@ -68,13 +68,212 @@ PS D:\Development\go_projects\vblog>
 + protocol: 协议服务器
 + apps: 业务模块开发区域
 
-### 业务模块
+### 概要设计（流程）
+
+1. 业务交互流程
 
 ![](./docs/images/design-zh.png)
 
 + 博客管理（Blog）
 + 用户管理（User）
 + 令牌管理（Token）
+
+2. 登录过期
+![](./docs/images/login-zh.png)
+
+### 数据库设计（确认字段）
+
+0. MySQl 8.0.31
+```sql
+mysql> create user root@'192.168.0.%' identified by '123456';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE DATABASE vblog DEFAULT CHARACTER SET = 'utf8mb4';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> grant all on vblog.* to root@'192.168.0.%';
+Query OK, 0 rows affected (0.01 sec)
+```
+
+
+1. 博客管理
+```sql
+CREATE TABLE `blogs` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '文章的Id',
+  `tags` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签',
+  `created_at` int NOT NULL COMMENT '创建时间',
+  `published_at` int NOT NULL COMMENT '发布时间',
+  `updated_at` int NOT NULL COMMENT '更新时间',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章标题',
+  `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '作者',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章内容',
+  `status` tinyint NOT NULL COMMENT '文章状态',
+  `summary` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章概要信息',
+  `create_by` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
+  `audit_at` int NOT NULL COMMENT '审核时间',
+  `is_audit_pass` tinyint NOT NULL COMMENT '是否审核通过',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_title` (`title`) COMMENT 'titile添加唯一键约束'
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+说明：
++ tags --> 用于博客分类。使用text，用的时候使用json转换即可
++ title
++ author
++ content --> text
++ status --> tinyint是枚举类型，0代表草稿，1代表发布过的
++ created_at --> 文章的元数据信息
++ published_at --> 文章的元数据信息
++ updated_at --> 文章的元数据信息
++ summary --> 显示在浏览器中的博客内容简介
+
+
+2. 用户管理
+```sql
+CREATE TABLE `users` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` int NOT NULL COMMENT '创建时间',
+  `updated_at` int NOT NULL COMMENT '更新时间',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名, 用户名不允许重复的',
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '不能保持用户的明文密码',
+  `label` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户标签',
+  `role` tinyint NOT NULL COMMENT '用户的角色',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `idx_user` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+说明：
++ role --> 可以考虑基于角色的验证
+
+3. 令牌管理
+```sql
+CREATE TABLE `tokens` (
+  `created_at` int NOT NULL COMMENT '创建时间',
+  `updated_at` int NOT NULL COMMENT '更新时间',
+  `user_id` int NOT NULL COMMENT '用户的Id',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名, 用户名不允许重复的',
+  `access_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户的访问令牌',
+  `access_token_expired_at` int NOT NULL COMMENT '令牌过期时间',
+  `refresh_token` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '刷新令牌',
+  `refresh_token_expired_at` int NOT NULL COMMENT '刷新令牌过期时间',
+  PRIMARY KEY (`access_token`) USING BTREE,
+  UNIQUE KEY `idx_token` (`access_token`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+说明：
+Token过期的设置，这是业务逻辑，并不是数据本身的问题。
+
+4. 外键问题
+
+```sh
+现在流行尽量避免使用外键，由程序增加业务逻辑，自行决定整个关联关系怎么处理
+```
+
+
+### Restful API设计
+
+1. Restful: (Resource) Representational State Transfer（资源状态转换）API风格
++ Resource Representational: 资源定义（服务端对象或者数据库内的一行记录）
++ State Transfer: 创建/修改/删除
+
+这种风格如何表现在API？
+```
+1. 资源定义
+1.1 一类资源
+/vblogs/api/v1/blogs: blogs 就是资源的类型： blogs 博客
+/vblogs/api/v1/users: users 就是资源的类型： users 用户
+1.2 一个资源
+/vblogs/api/v1/users/1: 1 就是资源的id，id为1的资源
+
+2. 状态转换：通过HTTP method来定义应有的状态转化，理解为用户的针对某类或者某个资源的动作
+POST：创建一个类型的资源，POST /vblogs/api/v1/users 创建一个用户，具体的参数存放在body
+PATCH：部分修改（补丁），PATCH /vblogs/api/v1/users/1，对id为1的用户 做属性的部分修改，name:abc （"usera" ---> "abc"）
+PUT：全量修改（覆盖），PUT /vblogs/api/v1/users/1，对id为1的用户 做属性的全量修改，name:abc 除去name之外的所有属性全部清空
+DELETE：资源删除
+GET：获取一类资源：GET /vblogs/api/v1/users，获取一个资源 GET /vblogs/api/v1/users/1
+```
+
+其他风格的API
+```
+POST url命名动作来表示资源的操作：POST /vblogs/api/v1/users/(list/get/delete/update/...)
+POST /pods/poda/logs/watch
+```
+
+#### 博客管理（设计完整的Restful API）
+
+1. 创建博客： POST /vblogs/api/v1/blogs
+```json
+{
+    "title": "",
+    "author": "",
+    "content": "",
+    "summary": ""
+}
+```
+
+2. 修改博客（部分）：PATCH /vblogs/api/v1/blogs/:id
+```json
+{
+    "title": "",
+    "author": "",
+    "content": "",
+    "summary": ""
+}
+```
+
+3. 修改博客（全量）：PUT /vblogs/api/v1/blogs/:id
+```json
+{
+    "title": "",
+    "author": "",
+    "content": "",
+    "summary": ""
+}
+```
+
+4. 删除博客：DELETE /vblogs/api/v1/blogs/:id
+```json
+body不传数据
+```
+
+5. GET /vblogs/api/v1/blogs/:id
+```json
+body不传数据
+```
+
+#### 令牌管理（设计基础必须，删除和刷新自己完成）
+
+1. POST /vblogs/api/v1/tokens
+```json
+{
+    "username": "",
+    "password": "",
+    "remember": true,
+}
+```
+
+2. DELETE /vblogs/api/v1/tokens
+```json
+body不传数据
+```
+
+#### 用户管理
+```
+功能完整，不做API，可以直接操作数据库，也可以通过单元测试
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
