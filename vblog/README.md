@@ -42,32 +42,6 @@
 
 ## 项目开发
 
-### 编写流程
-
-+ 整体框架（上-->下）
-+ 业务代码（下-->上）
-
-1. 顶层设计：从上往下进行设计
-2. 业务代码：从下往上写，核心应该是业务的实现
-
-### 项目结构
-
-```sh
-PS D:\Development\go_projects> cd vblog
-PS D:\Development\go_projects\vblog> go mod init "github.com/go_projects/vblog"
-go: creating new go.mod: module github.com/go_projects/vblog
-go: to add module requirements and sums:
-        go mod tidy
-PS D:\Development\go_projects\vblog> 
-```
-
-+ main.go: 入口文件
-+ conf: 程序的配置处理
-+ exception: 业务自定义异常。用户的token过期，需要专门定义
-+ response: 请求返回的统一数据格式 {"code": 0, "msg": ""}
-+ protocol: 协议服务器
-+ apps: 业务模块开发区域
-
 ### 概要设计（流程）
 
 1. 业务交互流程
@@ -265,15 +239,121 @@ body不传数据
 功能完整，不做API，可以直接操作数据库，也可以通过单元测试
 ```
 
+## 项目开发
 
+### 编写流程
 
++ 整体框架（上-->下）
++ 业务代码（下-->上）
 
+1. 顶层设计：从上往下进行设计
+2. 业务代码：从下往上写，核心应该是业务的实现
 
+### 项目结构
 
+```sh
+PS D:\Development\go_projects> cd vblog
+PS D:\Development\go_projects\vblog> go mod init "github.com/go_projects/vblog"
+go: creating new go.mod: module github.com/go_projects/vblog
+go: to add module requirements and sums:
+        go mod tidy
+PS D:\Development\go_projects\vblog> 
+```
 
++ main.go: 入口文件
++ conf: 程序的配置处理
++ exception: 业务自定义异常。用户的token过期，需要专门定义
++ response: 请求返回的统一数据格式 {"code": 0, "msg": ""}
++ protocol: 协议服务器
++ apps: 业务模块开发区域
 
+### 业务模块开发
 
+业务模块开发遵循如下规则：
+定义业务（Interface）：梳理需求，抽象业务逻辑，定义出业务的数据结构与接口约束
+业务实现（Controller）：根据业务定义，选择具体的技术（比如MySQL/MongoDB/ES），做具体的业务实现
+业务接口（API）：如果需要对外提供API，则按需将需要的对外暴露API接口
 
+表现在目录结构上：
+定义业务：业务模块顶层目录，具体表现为：user/interface.go(接口定义)
+业务实现：业务模块内impl目录，具体表现为：user/impl/impl.go(业务实现对象)
+业务接口：业务模块内api目录，具体表现为：user/api/api.go(HTTP Restful接口实现对象)
+
+http API和interface的区别：
+API: 应用编程接口，HTTP接口，通过网络可以调用
+interface: 对某个对象（Struct）的约束
+
+### 用户管理模块开发
+
+1. 定义业务
+```go
+// 面向对象
+// user.Service，设计这个模块提供的接口
+// 接口定义，一定要考虑兼容性，接口的参数不能变
+type Service interface {
+	// 用户创建
+	// CreateUser(username, password, role string, label map[string]string)
+	// 设计CreateUserRequest，可以扩展对象，而不影响接口的定义
+  // 返回值尽量用对象来包装
+	// 1. 这个接口支持取消吗？要支持取消应该怎么办？
+	// 2. 这个接口支持Trace，TraceId怎么传递？
+	// 中间件参数，取消/Trace/... 怎么产生怎么传递
+	CreateUser(context.Context, *CreateUserRequest) (*User, error)
+	// 查询用户列表，对象列表 [{}]
+	// 这里返回了*UserSet，目的是返回一个对象，里面可以添加更多参数，方便分页等业务操作
+	QueryUser(context.Context, *QueryUserRequest) (*UserSet, error)
+	// 查询用户详情，通过Id查询
+	DescribeUser(context.Context, *DescribeUserRequest) (*User, error)
+
+	// 作业：
+	// 用户修改
+	// 用户删除
+}
+```
+
+2. 业务实现
+
+业务定义层（对业务的抽象），由impl模块来完成具体的功能实现
+```go
+// 实现 user.Service
+// 怎么判断这个服务有没有实现这个接口呢？
+// &UserServiceImpl{} 是会分配内存，怎么才能不分配内存?
+// var _ user.Service = &UserServiceImpl{}
+// nil 如何声明 *UserServiceImpl 的nil
+// (*UserServiceImpl)(nil) --> int8 1 int32(1)  (int32)(1)
+// nil就是一个*UserServiceIpl的空指针
+var _ user.Service = (*UserServiceImpl)(nil)
+
+// 用户创建
+func (i *UserServiceImpl) CreateUser(
+	ctx context.Context,
+	in *user.CreateUserRequest) (
+	*user.User, error) {
+	return nil, nil
+}
+
+// 查询用户列表，对象列表 [{}]
+// 这里返回了*UserSet，目的是返回一个对象，里面可以添加更多参数，方便分页等业务操作
+func (i *UserServiceImpl) QueryUser(
+	ctx context.Context,
+	in *user.QueryUserRequest) (
+	*user.UserSet, error) {
+	return nil, nil
+}
+
+// 查询用户详情，通过Id查询
+func (i *UserServiceImpl) DescribeUser(
+	ctx context.Context,
+	in *user.DescribeUserRequest) (
+	*user.User, error) {
+	return nil, nil
+}
+```
+
+TDD的思想：保证代码质量
+![](./docs/images/tdd-zh.png)
+
+3. 怎么验证当前这个业务实现是不是正确的？写单元测试（TDD）
 
 
 
