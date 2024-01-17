@@ -350,7 +350,8 @@ func (i *UserServiceImpl) DescribeUser(
 }
 ```
 
-TDD的思想：保证代码质量
++ TDD的思想：保证代码质量
+
 ![](./docs/images/tdd-zh.png)
 
 3. 怎么验证当前这个业务实现是不是正确的？写单元测试（TDD）
