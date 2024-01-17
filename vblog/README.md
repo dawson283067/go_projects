@@ -70,6 +70,12 @@ PS D:\Development\go_projects\vblog>
 
 ### 业务模块
 
+![](./docs/images/design-zh.png)
+
++ 博客管理（Blog）
++ 用户管理（User）
++ 令牌管理（Token）
+
 
 
 
