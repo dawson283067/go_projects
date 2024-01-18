@@ -14,7 +14,7 @@ import (
 // 当我们点击 debug test 时，怎么注入自定义环境变量
 func TestSum(t *testing.T) {
 	// read file，很难统一路径问题：文件有相对路径和绝对路径
-	// 使用环境变量
+	// 环境变量读取和使用
 	a1 := os.Getenv("ARG1")
 	a2 := os.Getenv("ARG2")
 	a1I, _ := strconv.Atoi(a1)

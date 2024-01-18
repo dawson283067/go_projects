@@ -354,13 +354,137 @@ func (i *UserServiceImpl) DescribeUser(
 
 ![](./docs/images/tdd-zh.png)
 
-3. 怎么验证当前这个业务实现是不是正确的？写单元测试（TDD）
+1. 怎么验证当前这个业务实现是不是正确的？写单元测试（TDD）
+
+```go
+// 怎么引入被测试的对象？
+func TestCreateUser(t *testing.T) {
+	// 单元测试异常怎么处理
+	u, err := i.CreateUser(ctx, nil)
+	// 直接报错中断单元流程并且失败
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// 可以自己进行期望对比，进行单元测试报错
+	if u == nil {
+		t.Fatal("user not created")
+	}
+
+	// 正常打印对象
+	t.Log(u)
+}
+```
+
+2. 业务控制器 如何获取额外依赖（GORM DB对象）
+
+![](./docs/images/db_dependence.png)
 
 
+```go
+// 怎么实现user.Service接口？
+// 定义UserServiceImpl来实现接口
+type UserServiceImpl struct {
+	// 依赖了一个数据库操作的连接池对象
+	db *gorm.DB
+}
+```
 
+3. 为程序提供配置
 
+```go
+package conf
 
+import (
+	"fmt"
+	"sync"
 
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
+
+// 文件说明：
+// 一个Config对象定义，Config对象有一个方法。
+// 一个MySQL对象定义，MySQL对象有两个方法。MySQL对象组合到Config对象中。
+
+// 这里不采用直接暴露变量的方式，比较好的方式是使用函数
+var config *Config
+
+// 这里就可以补充逻辑
+func C() *Config {
+	// sync.Lock
+	if config == nil {
+		// 给个默认值
+		config = &Config{}
+	}
+	return config
+}
+
+// 程序配置对象，启动时 会读取配置，并且为程序提供需要的全局变量
+// 把配置对象做成全局变量（单例模式）
+type Config struct {
+	MySQL *MySQL
+}
+
+// db对象也是一个单例模式
+type MySQL struct {
+	Host        string   `json:"host" yaml:"host" toml:"host" env:"DATASOURCE_HOST"`
+	Port        int      `json:"port" yaml:"port" toml:"port" env:"DATASOURCE_PORT"`
+	DB          string   `json:"database" yaml:"database" toml:"database" env:"DATASOURCE_DB"`
+	Username    string   `json:"username" yaml:"username" toml:"username" env:"DATASOURCE_USERNAME"`
+	Password    string   `json:"password" yaml:"password" toml:"password" env:"DATASOURCE_PASSWORD"`
+	Debug       bool     `json:"debug" yaml:"debug" toml:"debug" env:"DATASOURCE_DEBUG"`
+
+	// 判断这个私有属性，来判断是否返回已有的对象
+	db *gorm.DB
+	l sync.Mutex
+}
+
+// dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
+func (m *MySQL) DSN() string {
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		m.Username,
+		m.Password,
+		m.Host,
+		m.Port,
+		m.DB,
+	)
+}
+
+// 通过配置就能获取一个DB实例
+func (m *MySQL) GetDB() *gorm.DB {	
+	// 避免多个Goroutine，同时执行打开操作，加互斥锁。把并行变成串行。
+	m.l.Lock()
+	defer m.l.Unlock()
+
+	if m.db == nil {
+		db, err := gorm.Open(mysql.Open(m.DSN()), &gorm.Config{})
+		if err != nil {
+			panic(err)
+		}
+		m.db = db
+	}
+	
+	return m.db
+}
+
+// 配置对象提供全局单例配置
+func (c *Config) DB() *gorm.DB {
+	return c.MySQL.GetDB()
+}
+
+```
+
+4. 使用配置提供DB对象完成控制器的依赖
+```go
+func NewUserServiceImpl() *UserServiceImpl {
+	return &UserServiceImpl{
+		// 获取全局的DB对象
+		// 前提：配置对象准备完成
+		db: conf.C().DB(),
+	}
+}
+```
 
 
 

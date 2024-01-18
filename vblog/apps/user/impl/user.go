@@ -20,6 +20,14 @@ func (i *UserServiceImpl) CreateUser(
 	ctx context.Context,
 	in *user.CreateUserRequest) (
 	*user.User, error) {
+	// 1. 校验用户请求
+
+	// 2. 创建用户实例对象
+
+	// 3. 把对象持久化（放到数据库里）
+
+	// 4. 返回创建好的对象
+
 	return nil, nil
 }
 
