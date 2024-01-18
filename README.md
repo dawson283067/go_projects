@@ -16,6 +16,8 @@
 2. 基础篇（单文件，单包开发）；项目课 代码量至少上千，几十个文件或者包共同组成一个工程，项目课代码量多，逻辑复杂
 3. 程序跑不起来是正常情况，写的代码一遍能跑起来是惊喜。需要学会自己debug
 4. 项目课程中代码多，流程复杂，代码是现场写的，是有几率出现问题，需要现场debug
+5. 项目是对基础最好的测试题
+6. 基础教的技能是过剩的，基础技能，用的时候能够理解就是OK的。某个点有问题，单独补充回顾或者学习单独的知识点。一个项目中60%能解决，就可以写项目
 
 ## 软件开发生命周期
 
@@ -46,4 +48,78 @@
        + A/B 
 
 产品迭代: 需求 ---> 开发 ---> 验证 ---> 上线
+
+## 开发过程出现的问题
+
+### 单模块工程与多模块工程
+
+在一个工程内初始化两个项目引发的问题如何解决，如何处理多模块问题
+
+
+
+1. 单模块工程： 通过vscode打开工程文件的目录
+```sh
+cd vblog
+code .
+这个需要安装插件，或者直接打开项目文件夹
+```
+
+2. 多模块工程：一次性打开多个项目，直接打开 多个工程的父文件夹
+
+如何处理多模块问题：go workspace 来组织一个代码仓库里的多个项目，处于一个多模块的项目工程下，会优先依赖 该工程下的其他模块代码
+
+正常情况下，两个独立项目都会推送到中央仓库，如果两个项目依赖，都是通过中央仓库来依赖的。
+
+![](./docs/workspace.png)
+
+```sh
+# 初始化一个工作空间
+go work init
+
+# 把项目加入到该空间
+go work use ./vblog
+go work use ./skills
+```
+
+实践过程：
+
+1. 初始化skills项目
+
+```sh
+PS D:\Development\go_projects\skills> go mod init "github.com/go_projects/skills"
+go: creating new go.mod: module github.com/go_projects/skills
+go: to add module requirements and sums:
+        go mod tidy
+PS D:\Development\go_projects\skills> 
+```
+
+2. 导致vblog项目报错，报红
+
+```sh
+vblog项目导入的包出现如下问题:
+
+could not import github.com/go_projects/vblog/apps/user (cannot find package "github.com/go_projects/vblog/apps/user" in GOROOT or GOPATH)compiler(BrokenImport)
+```
+
+理论上，一个工程里面就应该只有一个go mod，现在执行了两次go mod，导致冲突（初始化了vblog和skills）
+
+3. 解决方法
+```sh
+PS D:\Development\go_projects> go work init
+PS D:\Development\go_projects> go work use ./vblog
+PS D:\Development\go_projects> go work use ./skills
+PS D:\Development\go_projects>
+```
+
+go.work文件描述了当前空间中的项目
+```sh
+go 1.20
+
+use (
+	./skills
+	./vblog
+)
+```
+也可以直接在go.work文件中添加其他项目
+
 

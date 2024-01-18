@@ -270,22 +270,22 @@ PS D:\Development\go_projects\vblog>
 ### 业务模块开发
 
 业务模块开发遵循如下规则：
-定义业务（Interface）：梳理需求，抽象业务逻辑，定义出业务的数据结构与接口约束
-业务实现（Controller）：根据业务定义，选择具体的技术（比如MySQL/MongoDB/ES），做具体的业务实现
-业务接口（API）：如果需要对外提供API，则按需将需要的对外暴露API接口
++ 定义业务（Interface）：梳理需求，抽象业务逻辑，定义出业务的数据结构与接口约束
++ 业务实现（Controller）：根据业务定义，选择具体的技术（比如MySQL/MongoDB/ES），做具体的业务实现
++ 业务接口（API）：如果需要对外提供API，则按需将需要的对外暴露API接口
 
 表现在目录结构上：
-定义业务：业务模块顶层目录，具体表现为：user/interface.go(接口定义)
-业务实现：业务模块内impl目录，具体表现为：user/impl/impl.go(业务实现对象)
-业务接口：业务模块内api目录，具体表现为：user/api/api.go(HTTP Restful接口实现对象)
++ 定义业务：业务模块顶层目录，具体表现为：user/interface.go(接口定义)
++ 业务实现：业务模块内impl目录，具体表现为：user/impl/impl.go(业务实现对象)
++ 业务接口：业务模块内api目录，具体表现为：user/api/api.go(HTTP Restful接口实现对象)
 
 http API和interface的区别：
-API: 应用编程接口，HTTP接口，通过网络可以调用
-interface: 对某个对象（Struct）的约束
++ API: 应用编程接口，HTTP接口，通过网络可以调用
++ interface: 对某个对象（Struct）的约束
 
 ### 用户管理模块开发
 
-1. 定义业务
+#### 定义业务
 ```go
 // 面向对象
 // user.Service，设计这个模块提供的接口
@@ -311,7 +311,7 @@ type Service interface {
 }
 ```
 
-2. 业务实现
+#### 业务实现
 
 业务定义层（对业务的抽象），由impl模块来完成具体的功能实现
 ```go
