@@ -21,7 +21,7 @@ func C() *Config {
 	// sync.Lock
 	if config == nil {
 		// 给个默认值
-		config = &Config{}
+		config = DefaultConfig()
 	}
 	return config
 }
