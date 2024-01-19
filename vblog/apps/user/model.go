@@ -7,8 +7,11 @@ import (
 )
 
 // 存放需要入库的数据结构（PO）
-
+// 构造User对象的时候，就需要把明文密码转化为hash后的密码
 func NewUser(req *CreateUserRequest) *User {
+	// hash密码
+	req.HashedPassword()
+
 	return &User{
 		CreatedAt: time.Now().Unix(),
 		// 这里不属于更新，所以就不用给UpdateAt字段

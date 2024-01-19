@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/infraboard/mcube/tools/pretty"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -51,6 +52,18 @@ type CreateUserRequest struct {
 	// https://gorm.io/docs/serializer.html
 	Label map[string]string `json:"label" gorm:"column:label;serializer:json"`
 	// 把map序列化，然后放到label的字段里。如果没有serializer，数据库是不知道怎么放这种字段的
+}
+
+func (c *CreateUserRequest) HashedPassword() {
+	hp, err := bcrypt.GenerateFromPassword([]byte(c.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return
+	}
+	c.Password = string(hp)
+}
+
+func (c *CreateUserRequest) CheckPassword(pass string) error {
+	return bcrypt.CompareHashAndPassword([]byte(c.Password), []byte(pass))
 }
 
 // 校验：用validator和struct tag来完成校验

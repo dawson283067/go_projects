@@ -28,6 +28,8 @@ func (i *UserServiceImpl) CreateUser(
 	// 2. 创建用户实例对象
 	u := user.NewUser(in)
 
+	// Hash完成后入库
+
 	// 3. 把对象持久化（放到数据库里）
 	// orm: orm 需要定义这个对象 存放在哪个表里面，以及struct和数据库表中字段的映射关系
 	// object ----> row

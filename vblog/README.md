@@ -559,4 +559,31 @@ func init() {
 }
 ```
 
+#### 用户密码的存储问题
+
+问题：
+1. 用户密码明文存储在数据库当中
+2. 哪些情况下需要把用户的密码查询出来，进程内调用可以查询，接口暴露时屏蔽
+
+方案：
+
+![](./docs/images/password.png)
+
+1. HashPassword 方法内实现 hash
+```go
+// $2a$10$EoGVEGJL3HUnptnN/Nc0ZOyPKJQ91x3IOlx6d5aeDRw.UHhFfOUlK
+// $2a$10$x9nCIHuWadFW2WRsnLu1JO8X2XytaR/FWrYy4q0sSWuk4ps0iEY/y
+// https://gitee.com/infraboard/go-course/blob/master/day09/go-hash.md#bcrypt
+func TestHashedPassword(t *testing.T) {
+	req := user.NewCreateUserRequest()
+	req.Password = "123456"
+	req.HashedPassword()
+	t.Log(req.Password)
+
+	t.Log(req.CheckPassword("1234561"))
+}
+```
+
+
+
 

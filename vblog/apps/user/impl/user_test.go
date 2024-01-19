@@ -19,7 +19,7 @@ func TestCreateUser(t *testing.T) {
 	req := user.NewCreateUserRequest()
 	// user.CreateUserRequest{} 这样写很容易出现空指针
 	req.Username = "member"
-	req.Password = "123456"
+	req.Password = "1234567"
 	req.Role = user.ROLE_ADMIN
 
 	// 单元测试异常怎么处理
@@ -49,13 +49,15 @@ func TestQueryUser(t *testing.T) {
 }
 
 func TestDescribeUser(t *testing.T) {
-	req := user.NewDescribeUserRequest(6)
+	req := user.NewDescribeUserRequest(10)
 	ul, err := i.DescribeUser(ctx, req)
 	// 直接报错中断单元流程并且失败
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log(ul)
+
+	t.Log(ul.CheckPassword("1234567"))
 }
 
 func init() {
