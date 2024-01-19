@@ -584,6 +584,79 @@ func TestHashedPassword(t *testing.T) {
 }
 ```
 
+### 令牌管理模块开发
 
+#### 业务定义
 
+```go
+// Token Service 接口定义
 
+type Service interface {
+	// 登录： 颁发令牌
+	IssueToken(context.Context, *IssueTokenRequest) (*Token, error)
+
+	// 退出：撤销令牌
+	RevokeToken(context.Context, *RevokeTokenRequest) (*Token, error)
+
+	// 校验令牌
+	ValidateToken()
+
+}
+```
+
+#### 业务具体实现
+
+1. 如何处理模块间关联关系（面向接口编写）
+```go
+// 登录：颁发令牌
+// 依赖User模块来校验 用户密码是否正确
+func (i *TokenServiceImpl) IssueToken(
+	ctx context.Context,
+	in *token.IssueTokenRequest) (
+	*token.Token, error) {
+	
+	// 1. 确认用户密码是否正确
+	req := user.NewQueryUserRequest()
+	req.Username = in.Username
+	us, err := i.user.QueryUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if len(us.Items) == 0 {
+		return nil, fmt.Errorf("用户名或者密码错误")
+	}
+
+	// 校验密码是否正确
+	if err := us.Items[0].CheckPassword(in.Password); err != nil {
+		return nil, err
+	}
+
+	// 2. 正确的请求下 颁发用户令牌
+	return nil, nil
+}
+```
+2. 颁发Token
+```go
+/*
+	{
+          "user_id": "11",
+          "username": "admin",
+          "access_token": "cmlcaoca0uths53c6j4g",
+          "access_token_expired_at": 7200,
+          "refresh_token": "cmlcaoca0uths53c6j50",
+          "refresh_token_expired_at": 28800,
+          "created_at": 1705690465,
+          "updated_at": 1705690465,
+          "role": 1
+    }
+*/
+func TestIssueToken(t *testing.T) {
+	req := token.NewIssueTokenRequest("admin", "123456")
+	req.RemindMe = true
+	tk, err := i.IssueToken(ctx, req)
+	if err != nil {
+		t.Fatal()
+	}
+	t.Log(tk)
+}
+```

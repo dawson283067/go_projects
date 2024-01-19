@@ -25,5 +25,6 @@ require (
 	github.com/infraboard/mcube v1.19.22
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/rs/xid v1.5.0
 	gorm.io/driver/mysql v1.5.2
 )

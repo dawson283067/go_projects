@@ -18,8 +18,8 @@ func TestCreateUser(t *testing.T) {
 	// 使用构造函数创建请求对象
 	req := user.NewCreateUserRequest()
 	// user.CreateUserRequest{} 这样写很容易出现空指针
-	req.Username = "member"
-	req.Password = "1234567"
+	req.Username = "admin"
+	req.Password = "123456"
 	req.Role = user.ROLE_ADMIN
 
 	// 单元测试异常怎么处理
