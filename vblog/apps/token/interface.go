@@ -45,6 +45,12 @@ type RevokeTokenRequest struct {
 	RefreshToken string
 }
 
+func NewValidateTokenRequest(accessToken string) *ValidateTokenRequest {
+	return &ValidateTokenRequest{
+		AccessToken: accessToken,
+	}
+}
+
 type ValidateTokenRequest struct {
 	AccessToken string
 }

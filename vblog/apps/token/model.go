@@ -10,6 +10,7 @@ import (
 )
 
 const (
+	// 以秒为单位
 	DEFAULT_EXPIRED_AT = 2 * 60 * 60
 	WEEK_EXPIRED_AT = 7 * 24 * 60 * 60
 )
@@ -61,6 +62,40 @@ func (t *Token) CheckRefreshToken(refreshToken string) error {
 	if t.RefreshToken != refreshToken {
 		return fmt.Errorf("refresh token not correct")
 	}
+	return nil
+}
+
+// 校验Token是否过期
+// 1. access_token过期
+// 2. refress_token过期
+func (t *Token) ValidateExpired() error {
+	// 颁发时间 + refresh_token过期
+	// type Duration int64
+	// time.Second是一个time.Duration对象
+	refreshExpiredTime := time.
+		Unix(t.CreatedAt, 0).
+		Add(time.Duration(t.RefreshTokenExpiredAt) * time.Second)
+	
+	// 和当前时间比较
+	// now - refreshExpiredTime
+	// 大于0就是过期了
+	rDelta := time.Since(refreshExpiredTime).Minutes()
+	if rDelta > 0 {
+		return ErrRefreshTokenExpired.WithMessagef("refresh token expired %f minutes", rDelta)
+		// return fmt.Errorf("refresh token expired %f minutes", rDelta)
+	}
+
+	// 颁发时间 + access_token过期
+	accessExpiredTime := time.
+		Unix(t.CreatedAt, 0).
+		Add(time.Duration(t.AccessTokenExpiredAt) * time.Second)
+	
+	aDelta := time.Since(accessExpiredTime).Minutes()
+	if  aDelta > 0 {
+		return ErrAccessTokenExpired.WithMessagef("access token expired %f minutes", aDelta)
+		// return fmt.Errorf("access token expired %f minutes", aDelta)
+	}
+
 	return nil
 }
 

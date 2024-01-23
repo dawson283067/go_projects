@@ -85,14 +85,23 @@ func (i *TokenServiceImpl) RevokeToken(
 }
 
 // 校验令牌
-// 
+// 需要确认这个令牌是颁发给谁的
 func (i *TokenServiceImpl) ValidateToken(
 	ctx context.Context,
 	in *token.ValidateTokenRequest) (
 	*token.Token, error) {
 	
-	// 查询Token
+	// 1. 查询Token，判断令牌是否存在
+	tk, err := i.getToken(ctx, in.AccessToken)
+	if err != nil {
+		return nil, err
+	}
 
+	// 2. 判断令牌是否过期
+	if err := tk.ValidateExpired(); err != nil {
+		return nil, err
+	}
 
-	return nil, nil
+	// 3. 令牌合法返回令牌
+	return tk, nil
 }

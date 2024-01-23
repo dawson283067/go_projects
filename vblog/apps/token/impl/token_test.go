@@ -7,6 +7,7 @@ import (
 	"github.com/go_projects/vblog/apps/token"
 	"github.com/go_projects/vblog/apps/token/impl"
 	ui "github.com/go_projects/vblog/apps/user/impl"
+	"github.com/go_projects/vblog/exception"
 )
 
 
@@ -45,6 +46,38 @@ func TestRevokeToken(t *testing.T) {
 		"cmlcakka0uti117ngqpg",
 	)
 	tk, err := i.RevokeToken(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(tk)
+}
+
+
+// refresh token expired 5233.530429 minutes
+/* 
+	{
+          "user_id": "11",
+          "username": "admin",
+          "access_token": "cmlcbuca0uti92286di0",
+          "access_token_expired_at": 604800,
+          "refresh_token": "cmlcbuca0uti92286dig",
+          "refresh_token_expired_at": 2419200,
+          "created_at": 1705690617,
+          "updated_at": 1705690617,
+          "role": 0
+    }
+*/ 
+func TestValidateToken(t *testing.T) {
+	req := token.NewValidateTokenRequest("cmlcbuca0uti92286di0")
+	tk, err := i.ValidateToken(ctx, req)
+	// 通过断言来获取一个exception
+	if e, ok := err.(*exception.APIExcetion); ok {
+		t.Log(e.String())
+		// 判断该异常是不是 TokenExpired 异常
+		if e.Code == token.ErrAccessTokenExpired.Code {
+			t.Log(e.String())
+		}
+	}
 	if err != nil {
 		t.Fatal(err)
 	}
