@@ -39,7 +39,19 @@ func TestIssueToken(t *testing.T) {
 	t.Log(tk)
 }
 
+func TestRevokeToken(t *testing.T) {
+	req := token.NewRevokeTokenRequest(
+		"cmlcakka0uti117ngqp0",
+		"cmlcakka0uti117ngqpg",
+	)
+	tk, err := i.RevokeToken(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(tk)
+}
+
 func init() {
-	// 加载被测试对象， i 就是User Service接口的具体实现对象
+	// 加载被测试对象， i 就是Token Service接口的具体实现对象
 	i = impl.NewTokenServiceImpl(ui.NewUserServiceImpl())
 }

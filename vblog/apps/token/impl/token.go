@@ -15,9 +15,10 @@ func (i *TokenServiceImpl) IssueToken(
 	in *token.IssueTokenRequest) (
 	*token.Token, error) {
 	
-	// 1. 确认用户密码是否正确
+	// 1.1 确认用户密码是否正确
 	req := user.NewQueryUserRequest()
 	req.Username = in.Username
+	// 面向接口，没有具体对象存在。面向具体的业务逻辑，进行抽象编程
 	us, err := i.user.QueryUser(ctx, req)
 	if err != nil {
 		return nil, err
@@ -26,7 +27,7 @@ func (i *TokenServiceImpl) IssueToken(
 		return nil, fmt.Errorf("用户名或者密码错误")
 	}
 
-	// 校验密码是否正确
+	// 1.2 校验密码是否正确
 	u := us.Items[0]
 	if err := us.Items[0].CheckPassword(in.Password); err != nil {
 		return nil, err
@@ -51,12 +52,36 @@ func (i *TokenServiceImpl) IssueToken(
 	return tk, nil
 }
 
-// 退出：撤销令牌
+// 退出：撤销令牌，把这个令牌删除
+// 明确结果返回
 func (i *TokenServiceImpl) RevokeToken(
 	ctx context.Context,
 	in *token.RevokeTokenRequest) (
 	*token.Token, error) {
-	return nil, nil
+	
+	// 查询Token，到数据库里查询，返回一个token对象
+	tk, err := i.getToken(ctx, in.AccessToken)
+	if err != nil {
+		return nil, err
+	}
+
+	// refresh 确认
+	err = tk.CheckRefreshToken(in.RefreshToken)
+	if err != nil {
+		return nil, err
+	}
+
+	// 删除Token
+	// DELETE FROM `tokens` WHERE access_token = 'cmlcakka0uti117ngqp0' AND refresh_token = 'cmlcakka0uti117ngqpg'
+	err = i.db.WithContext(ctx).
+		Where("access_token = ?", in.AccessToken).
+		Where("refresh_token = ?", in.RefreshToken).
+		Delete(&token.Token{}).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return tk, nil
 }
 
 // 校验令牌
@@ -65,5 +90,9 @@ func (i *TokenServiceImpl) ValidateToken(
 	ctx context.Context,
 	in *token.ValidateTokenRequest) (
 	*token.Token, error) {
+	
+	// 查询Token
+
+
 	return nil, nil
 }

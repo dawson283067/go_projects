@@ -5,6 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// 构造函数
 func NewUserServiceImpl() *UserServiceImpl {
 	return &UserServiceImpl{
 		// 获取全局的DB对象

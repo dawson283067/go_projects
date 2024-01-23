@@ -20,7 +20,8 @@ func (i *UserServiceImpl) CreateUser(
 	ctx context.Context,
 	in *user.CreateUserRequest) (
 	*user.User, error) {
-	// 1. 校验用户请求
+
+	// 1. 校验用户请求（这里采用了validator库，校验了CreateUserRequest结构体的实例）
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}
@@ -28,7 +29,7 @@ func (i *UserServiceImpl) CreateUser(
 	// 2. 创建用户实例对象
 	u := user.NewUser(in)
 
-	// Hash完成后入库
+	// Hash密码后完成后入库
 
 	// 3. 把对象持久化（放到数据库里）
 	// orm: orm 需要定义这个对象 存放在哪个表里面，以及struct和数据库表中字段的映射关系
@@ -51,6 +52,7 @@ func (i *UserServiceImpl) QueryUser(
 	ctx context.Context,
 	in *user.QueryUserRequest) (
 	*user.UserSet, error) {
+
 	// 构造一个MySQL 条件查询语句 select * from users where ...
 	query := i.db.WithContext(ctx).Model(&user.User{})
 
@@ -60,6 +62,7 @@ func (i *UserServiceImpl) QueryUser(
 		query = query.Where("username = ?", in.Username)
 	}
 
+	// 初始化一个UserSet结构体，用于接收Query后得到的对象
 	set := user.NewUserSet()
 
 	// 统计当前有多个
@@ -90,6 +93,7 @@ func (i *UserServiceImpl) DescribeUser(
 	ctx context.Context,
 	in *user.DescribeUserRequest) (
 	*user.User, error) {
+		
 	// 构造一个MySQL 条件查询语句 select * from users where ...
 	query := i.db.WithContext(ctx).Model(&user.User{}).Where("id = ?", in.UserId)
 

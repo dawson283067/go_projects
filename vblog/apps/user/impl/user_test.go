@@ -18,12 +18,14 @@ func TestCreateUser(t *testing.T) {
 	// 使用构造函数创建请求对象
 	req := user.NewCreateUserRequest()
 	// user.CreateUserRequest{} 这样写很容易出现空指针
-	req.Username = "admin"
+	req.Username = "Tom"
 	req.Password = "123456"
 	req.Role = user.ROLE_ADMIN
 
-	// 单元测试异常怎么处理
+	// 创建用户，PO到数据库中
 	u, err := i.CreateUser(ctx, req)
+
+	// 单元测试异常怎么处理
 	// 直接报错中断单元流程并且失败
 	if err != nil {
 		t.Fatal(err)
@@ -40,24 +42,24 @@ func TestCreateUser(t *testing.T) {
 
 func TestQueryUser(t *testing.T) {
 	req := user.NewQueryUserRequest()
-	ul, err := i.QueryUser(ctx, req)
+	us, err := i.QueryUser(ctx, req)
 	// 直接报错中断单元流程并且失败
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(ul)
+	t.Log(us)
 }
 
 func TestDescribeUser(t *testing.T) {
-	req := user.NewDescribeUserRequest(10)
-	ul, err := i.DescribeUser(ctx, req)
-	// 直接报错中断单元流程并且失败
+	req := user.NewDescribeUserRequest(12)
+	u, err := i.DescribeUser(ctx, req)
+	// 直接报错，中断单元流程并且失败
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(ul)
+	t.Log(u)
 
-	t.Log(ul.CheckPassword("1234567"))
+	t.Log(u.CheckPassword("123456"))
 }
 
 func init() {

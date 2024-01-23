@@ -1,20 +1,16 @@
 package user
 
 import (
-	"context"
+	"context"	
 
 	"github.com/go-playground/validator/v10"
 	"github.com/infraboard/mcube/tools/pretty"
 	"golang.org/x/crypto/bcrypt"
 )
 
-var (
-	v = validator.New()
-)
-
 // 面向对象
 // user.Service，设计这个模块提供的接口
-// 接口定义，一定要考虑兼容性，接口的参数不能变
+// 接口定义，一定要考虑兼容性，接口的参数不能改变
 type Service interface {
 	// 用户创建
 	// CreateUser(username, password, role string, label map[string]string)
@@ -24,9 +20,11 @@ type Service interface {
 	// 2. 这个接口支持Trace，TraceId怎么传递？
 	// 中间件参数，取消/Trace/... 怎么产生怎么传递
 	CreateUser(context.Context, *CreateUserRequest) (*User, error)
+
 	// 查询用户列表，对象列表 [{}]
 	// 这里返回了*UserSet，目的是返回一个对象，里面可以添加更多参数，方便分页等业务操作
 	QueryUser(context.Context, *QueryUserRequest) (*UserSet, error)
+
 	// 查询用户详情，通过Id查询
 	DescribeUser(context.Context, *DescribeUserRequest) (*User, error)
 
@@ -34,6 +32,11 @@ type Service interface {
 	// 用户修改
 	// 用户删除
 }
+
+// 声明一个全局的校验对象
+var (
+	v = validator.New()
+)
 
 // 为了避免对象内部出现很多空指针，指针对象未初始化，为该对象提供一个构造函数
 // 还能做一些相关兼容，补充默认值的功能，New+对象名称()
@@ -44,26 +47,28 @@ func NewCreateUserRequest() *CreateUserRequest {
 	}
 }
 
-// 用户创建的参数
+// 【用户创建】的参数
 type CreateUserRequest struct {
 	Username string `json:"username" validate:"required" gorm:"column:username"`
 	Password string `json:"password" validate:"required" gorm:"column:password"`
 	Role     Role   `json:"role" validate:"required" gorm:"column:role"`
 	// https://gorm.io/docs/serializer.html
-	Label map[string]string `json:"label" gorm:"column:label;serializer:json"`
 	// 把map序列化，然后放到label的字段里。如果没有serializer，数据库是不知道怎么放这种字段的
+	Label map[string]string `json:"label" gorm:"column:label;serializer:json"`
+	
 }
 
-func (c *CreateUserRequest) HashedPassword() {
-	hp, err := bcrypt.GenerateFromPassword([]byte(c.Password), bcrypt.DefaultCost)
+func (req *CreateUserRequest) HashedPassword() {
+	// 这里使用了bcrypt库
+	hp, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return
 	}
-	c.Password = string(hp)
+	req.Password = string(hp)
 }
 
-func (c *CreateUserRequest) CheckPassword(pass string) error {
-	return bcrypt.CompareHashAndPassword([]byte(c.Password), []byte(pass))
+func (req *CreateUserRequest) CheckPassword(pass string) error {
+	return bcrypt.CompareHashAndPassword([]byte(req.Password), []byte(pass))
 }
 
 // 校验：用validator和struct tag来完成校验
@@ -77,6 +82,7 @@ func (req *CreateUserRequest) Validate() error {
 
 	// validator库，validator.New() 校验器对象，全局单例模式
 	// 也可以定义validator，比较麻烦。也可以使用validator，再写自己的校验规则，结合
+	// req是结构体CreateUserRequest的实例，Username|Password|Role 三个字段需要校验
 	return v.Struct(req)
 }
 
@@ -101,10 +107,10 @@ func (req *QueryUserRequest) Limit() int {
 	return req.PageSize
 }
 
-// 1, 0
-// 2, 20
-// 3, 20 * 2
-// 4，20 * 3
+// 1, 0          第一页，偏移是0
+// 2, 20         第二页，偏移是20 * 1
+// 3, 20 * 2     第三页，偏移是20 * 2
+// 4，20 * 3     第四页，偏移是20 * 3
 func (req *QueryUserRequest) Offset() int {
 	return req.PageSize * (req.PageNumber - 1)
 }

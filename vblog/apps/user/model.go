@@ -6,7 +6,7 @@ import (
 	"github.com/infraboard/mcube/tools/pretty"
 )
 
-// 存放需要入库的数据结构（PO）
+// 存放需要入库的数据结构（PO，Persistent Object）
 // 构造User对象的时候，就需要把明文密码转化为hash后的密码
 func NewUser(req *CreateUserRequest) *User {
 	// hash密码

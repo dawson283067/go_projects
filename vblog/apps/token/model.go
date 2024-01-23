@@ -1,6 +1,7 @@
 package token
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/go_projects/vblog/apps/user"
@@ -49,11 +50,18 @@ type Token struct {
 
 	// 创建时间
 	CreatedAt int64 `json:"created_at" gorm:"created_at"`
-	// 更新实现
+	// 更新时间
 	UpdatedAt int64 `json:"updated_at" gorm:"updated_at"`
 
 	// 额外补充信息, gorm忽略处理
 	Role user.Role `json:"role" gorm:"-"`
+}
+
+func (t *Token) CheckRefreshToken(refreshToken string) error {
+	if t.RefreshToken != refreshToken {
+		return fmt.Errorf("refresh token not correct")
+	}
+	return nil
 }
 
 func (t *Token) TableName() string {

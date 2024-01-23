@@ -30,6 +30,13 @@ type IssueTokenRequest struct {
 	RemindMe bool
 }
 
+func NewRevokeTokenRequest(accessToken, refreshToken string) *RevokeTokenRequest {
+	return &RevokeTokenRequest{
+		AccessToken: accessToken,
+		RefreshToken: refreshToken,
+	}
+}
+
 // 撤销令牌的请求
 type RevokeTokenRequest struct {
 	// 颁发给用户的访问令牌（用户需要携带Token来访问接口）
