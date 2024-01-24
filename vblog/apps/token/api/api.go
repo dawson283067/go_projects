@@ -3,6 +3,8 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go_projects/vblog/apps/token"
+	"github.com/go_projects/vblog/conf"
+	"github.com/go_projects/vblog/response"
 )
 
 // 来实现对外提供 RESTful 接口
@@ -20,8 +22,8 @@ func (h *TokenApiHandler) Registry(rr gin.IRouter) {
 	// 模块路径
 	// /vblog/api/v1/tokens
 	mr := rr.Group("token.AppName")
-	mr.POST("tokens", h.Login)
-	mr.DELETE("tokens", h.Logout)
+	mr.POST("/", h.Login)
+	mr.DELETE("/", h.Logout)
 }
 
 // 登录
@@ -35,16 +37,57 @@ func (h *TokenApiHandler) Login(c *gin.Context) {
 	// Body 必须是json
 	req := token.NewIssueTokenRequest("", "")
 	if err := c.BindJSON(req); err != nil {
-		return 
+		response.Failed(c, err)
+		return
 	}
 	
-
 	// 2. 业务逻辑处理
+	tk, err := h.svc.IssueToken(c.Request.Context(), req)
+	if err != nil {
+		response.Failed(c, err)
+		return
+	}
+
+	// 2.1 Set Cookie
+	c.SetCookie(
+		token.TOKEN_COOKIE_KEY,
+		tk.AccessToken,
+		tk.AccessTokenExpiredAt,
+		"/",
+		conf.C().Application.Domain,
+		false,
+		true,
+	)
 
 	// 3. 返回处理结果
+	response.Success(c, tk)
 }
 
 // 退出
-func (h *TokenApiHandler) Logout(ctx *gin.Context) {
+func (h *TokenApiHandler) Logout(c *gin.Context) {
+	// 1. 解析用户请求
+	// token为了安全，存放在Cookie获取自定义Header中
+	accessToken := token.GetAccessTokenFromHttp(c.Request)
+	req := token.NewRevokeTokenRequest(accessToken, c.Query("refresh_token"))
 
+	// 2. 业务逻辑处理
+	_, err := h.svc.RevokeToken(c.Request.Context(), req)
+	if err != nil {
+		response.Failed(c, err)
+		return
+	}
+
+	// 2.1 删除前端的cookie
+	c.SetCookie(
+		token.TOKEN_COOKIE_KEY,
+		"",
+		-1,
+		"/",
+		conf.C().Application.Domain,
+		false,
+		true,
+	)
+
+	// 3. 返回处理结果
+	response.Success(c, "退出成功")
 }

@@ -28,6 +28,9 @@ func C() *Config {
 
 func DefaultConfig() *Config {
 	return &Config{
+		Application: &Application{
+			Domain: "127.0.0.1",
+		},
 		MySQL: &MySQL{
 			Host:     "192.168.0.77",
 			Port:     3306,
@@ -50,7 +53,12 @@ port=3306
 ...
 */
 type Config struct {
+	Application *Application `json:"app" yaml:"app" toml:"app"`
 	MySQL *MySQL `json:"mysql" yaml:"mysql" toml:"mysql"`
+}
+
+type Application struct {
+	Domain string `json:"domain" yaml:"domain" toml:"domain" env:"APP_DOMAIN"`
 }
 
 // fmt.Stringer

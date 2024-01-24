@@ -1,6 +1,12 @@
 package token
 
-import "context"
+import (
+	"context"
+	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
+)
 
 const (
 	// 模块名称
@@ -58,4 +64,25 @@ func NewValidateTokenRequest(accessToken string) *ValidateTokenRequest {
 
 type ValidateTokenRequest struct {
 	AccessToken string
+}
+
+func GetAccessTokenFromHttp(req *http.Request) string {
+	// 自定义头，头叫什么名字；Authorization: Bearer xxxx
+	ah := req.Header.Get(TOKEN_HEADER_KEY)
+	if ah != "" {
+		hv := strings.Split(ah, " ")
+		if len(hv) > 1 {
+			return hv[1]
+		}
+	}
+
+	// 再读Cookie
+	ck, err := req.Cookie(TOKEN_COOKIE_KEY)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+
+	val, _ := url.QueryUnescape(ck.Value)
+	return val
 }

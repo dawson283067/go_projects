@@ -16,7 +16,7 @@ func NewAPIException(code int, reason string) *APIExcetion {
 // error的自定义实现
 // 通过 API 直接序列化
 type APIExcetion struct {
-	HttpCode int    `json:"http_code"`
+	HttpCode int    `json:"-"`
 	Code     int    `json:"code"`
 	Reason  string `json:"reason"`
 	Message string `json:"message"`
@@ -33,6 +33,12 @@ func (e *APIExcetion) String() string {
 // 设计为链式调用 New().WithMessage()
 func (e *APIExcetion) WithMessage(msg string) *APIExcetion {
 	e.Message = msg
+	return e
+}
+
+// 设计为链式调用 New().WithMHttpCode()
+func (e *APIExcetion) WithHttpCode(code int) *APIExcetion {
+	e.HttpCode = code
 	return e
 }
 
