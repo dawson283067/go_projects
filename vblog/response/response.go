@@ -25,6 +25,7 @@ func Failed(c *gin.Context, err error) {
 			500,
 			http.StatusText(http.StatusInternalServerError),
 		).WithMessage(err.Error()).WithHttpCode(500)
+		// 老师写错过，e.Error()，出现空指针。注意这个问题
 	}
 
 	// 返回异常

@@ -931,3 +931,6 @@ DELETE /vblog/api/v1/tokens?refresh_token=cmom8n4a0utg637isj40 HTTP/1.1
 Host: 127.0.0.1:8080
 ```
 
+### v2版本
+[v2版本](./v2.md)
+
