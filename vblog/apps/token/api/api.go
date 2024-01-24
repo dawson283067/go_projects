@@ -7,6 +7,12 @@ import (
 	"github.com/go_projects/vblog/response"
 )
 
+func NewTokenApiHandler(svc token.Service) *TokenApiHandler {
+	return &TokenApiHandler{
+		svc: svc, 
+	}
+}
+
 // 来实现对外提供 RESTful 接口
 type TokenApiHandler struct {
 	svc token.Service
@@ -21,7 +27,7 @@ func (h *TokenApiHandler) Registry(rr gin.IRouter) {
 
 	// 模块路径
 	// /vblog/api/v1/tokens
-	mr := rr.Group("token.AppName")
+	mr := rr.Group(token.AppName)
 	mr.POST("/", h.Login)
 	mr.DELETE("/", h.Logout)
 }

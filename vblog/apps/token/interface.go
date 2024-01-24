@@ -35,10 +35,10 @@ func NewIssueTokenRequest(username, password string) *IssueTokenRequest {
 
 // 颁发令牌的请求
 type IssueTokenRequest struct {
-	Username string
-	Password string
+	Username string `json:"username"`
+	Password string `json:"password"`
 	// 延长Token的有效期为1周
-	RemindMe bool
+	RemindMe bool `json:"remind_me"`
 }
 
 func NewRevokeTokenRequest(accessToken, refreshToken string) *RevokeTokenRequest {

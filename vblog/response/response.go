@@ -9,7 +9,7 @@ import (
 
 // API成功，返回数据
 func Success(c *gin.Context, data any) {
-
+	c.JSON(http.StatusOK, data)
 }
 
 
@@ -24,7 +24,7 @@ func Failed(c *gin.Context, err error) {
 		resp = exception.NewAPIException(
 			500,
 			http.StatusText(http.StatusInternalServerError),
-		).WithMessage(e.Error()).WithHttpCode(500)
+		).WithMessage(err.Error()).WithHttpCode(500)
 	}
 
 	// 返回异常

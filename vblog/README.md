@@ -789,7 +789,145 @@ if err := c.BindJSON(req); err != nil {
 
 4. 如何规范API请求的数据响应格式
 
+![数据响应格式统一](./response/README.md)
+
+5. 实现登录与退出
+
+```go
+// 登录
+func (h *TokenApiHandler) Login(c *gin.Context) {
+	// 1. 解析用户请求
+	// http 的请求可以放到哪里，放body，bytes
+	// io.ReadAll(c.Request.Body)
+	// defer c.Request.Body.Close()
+	// json unmarshal json.Unmarshal(body, o)
+	
+	// Body 必须是json
+	req := token.NewIssueTokenRequest("", "")
+	if err := c.BindJSON(req); err != nil {
+		response.Failed(c, err)
+		return
+	}
+	
+	// 2. 业务逻辑处理
+	tk, err := h.svc.IssueToken(c.Request.Context(), req)
+	if err != nil {
+		response.Failed(c, err)
+		return
+	}
+
+	// 2.1 Set Cookie
+	c.SetCookie(
+		token.TOKEN_COOKIE_KEY,
+		tk.AccessToken,
+		tk.AccessTokenExpiredAt,
+		"/",
+		conf.C().Application.Domain,
+		false,
+		true,
+	)
+
+	// 3. 返回处理结果
+	response.Success(c, tk)
+}
+```
+
+### 组织业务（main）
+
+#### 组装业务
+
+```go
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/go_projects/vblog/apps/token/api"
+	token_impl "github.com/go_projects/vblog/apps/token/impl"
+	user_impl "github.com/go_projects/vblog/apps/user/impl"
+)
+
+func main() {
+
+	// user service impl
+	usvc := user_impl.NewUserServiceImpl()
+
+	// token service impl
+    tsvc := token_impl.NewTokenServiceImpl(usvc)
+
+	// api
+	TokenApiHandler := api.NewTokenApiHandler(tsvc)
+
+	// Protocol
+	engine := gin.Default()
+
+	rr := engine.Group("/vblog/api/v1")
+	TokenApiHandler.Registry(rr)
+
+	// 把Http协议服务器启动起来
+	if err := engine.Run(":8080"); err != nil {
+		panic(err)
+	}
+	
+}
+
+```
+
+#### 启动业务
+
+```go
+PS D:\Development\go_projects\vblog> go run main.go
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:   export GIN_MODE=release
+ - using code:  gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /vblog/api/v1/token.AppName/ --> github.com/go_projects/vblog/apps/token/api.(*TokenApiHandler).Login-fm (3 handlers)
+[GIN-debug] DELETE /vblog/api/v1/token.AppName/ --> github.com/go_projects/vblog/apps/token/api.(*TokenApiHandler).Logout-fm (3 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8080
+```
+
+#### 测试
+
+使用postman进行测试
+
+1. 登录
+
+```sh
+POST /vblog/api/v1/tokens HTTP/1.1
+Host: 127.0.0.1:8080
+Content-Type: application/json
+Cookie: token=cmom8n4a0utg637isj3g
+Content-Length: 56
+
+{
+    "username": "admin",
+    "password": "123456"
+}
+```
+
+```json
+{
+    "user_id": "11",
+    "username": "admin",
+    "access_token": "cmom8n4a0utg637isj3g",
+    "access_token_expired_at": 7200,
+    "refresh_token": "cmom8n4a0utg637isj40",
+    "refresh_token_expired_at": 28800,
+    "created_at": 1706124380,
+    "updated_at": 1706124380,
+    "role": 1
+}
+```
 
 
 
+2. 退出
+
+```sh
+DELETE /vblog/api/v1/tokens?refresh_token=cmom8n4a0utg637isj40 HTTP/1.1
+Host: 127.0.0.1:8080
+```
 
