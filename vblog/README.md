@@ -704,4 +704,92 @@ func TestValidateToken(t *testing.T) {
 
 5. 业务自定义异常
 
+![业务异常定义和处理](./exception/README.md)
+
+
+#### 业务API开发
+
+![](./docs/cookie.drawio)
+
+使用Gin做开发API的接口：接口的状态管理（Cookie）
++ LogIn: 登录，令牌的颁发
+	+ 1. Token颁发Token
+	+ 2. 颁发完成后，使用SetCookie 通知前端（浏览器），把Cookie设置到本地
++ LogOut：登出，令牌的销毁
+	+ 1. Token服务销毁Token
+	+ 2. 使用SetCookie 通知前端 重新设置Cookie为""
+
+
+1. 定义实现接口对象：TokenApiHandler:
+```go
+// 来实现对外提供 RESTful 接口
+type TokenApiHandler struct {
+	svc token.Service
+}
+
+// 如何为Handler添加路由，如何把路由注册给Http Server
+func (h *TokenApiHandler) Registry() {
+	// 每个业务模块 都需要往Gin Engine对象注册路由
+	r := gin.Default()
+	r.POST("/vblog/api/v1/tokens", h.Login)
+	r.DELETE("/vblog/api/v1/tokens", h.Logout)
+}
+
+// 登录
+func (h *TokenApiHandler) Login(ctx *gin.Context) {
+
+}
+
+// 退出
+func (h *TokenApiHandler) Logout(ctx *gin.Context) {
+
+}
+```
+
+2. 设计模块路由：如何让每个模块的路由不冲突，每个业务模块，当作一个路由分组： /vblog/api/v1/tokens
++ 前缀：vblog 是服务名称 /order/ /bill/ /product/ /catalog/
++ 功能：api/ui 为了区分api 还是ui（前端） api（后端）
++ 资源版本：v1/v2/v3  这是方便分后端的，前端页面没有的
++ 业务模块名称：tokens，或者资源名称
+
+```go
+root path --> /vblog/api/v1
+modue path --> /vblog/api/v1/tokens
+```
+
+```go
+// 如何为Handler添加路由，如何把路由注册给Http Server
+// 需要一个Root Router: path prefix: /vblog/api/v1
+func (h *TokenApiHandler) Registry(rr gin.IRouter) {
+	// 每个业务模块 都需要往Gin Engine对象注册路由
+	// r := gin.Default()
+	// rr := r.Group("vblog/api/v1")
+
+	// 模块路径
+	// /vblog/api/v1/tokens
+	mr := rr.Group("token.AppName")
+	mr.POST("tokens", h.Login)
+	mr.DELETE("tokens", h.Logout)
+}
+```
+
+3. 接口如何携带请求参数：
++ URL Path: /tokens/xxxx/
++ URL Query String: ?token=xxx&a=1&b=2
++ Header
++ Body
+
+```go
+// Body 必须是json
+req := token.NewIssueTokenRequest("", "")
+if err := c.BindJSON(req); err != nil {
+	return 
+}
+```
+
+4. 如何规范API请求的数据响应格式
+
+
+
+
 

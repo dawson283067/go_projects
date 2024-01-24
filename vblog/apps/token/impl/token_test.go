@@ -6,8 +6,7 @@ import (
 
 	"github.com/go_projects/vblog/apps/token"
 	"github.com/go_projects/vblog/apps/token/impl"
-	ui "github.com/go_projects/vblog/apps/user/impl"
-	"github.com/go_projects/vblog/exception"
+	ui "github.com/go_projects/vblog/apps/user/impl"	
 )
 
 
@@ -71,13 +70,14 @@ func TestValidateToken(t *testing.T) {
 	req := token.NewValidateTokenRequest("cmlcbuca0uti92286di0")
 	tk, err := i.ValidateToken(ctx, req)
 	// 通过断言来获取一个exception
-	if e, ok := err.(*exception.APIExcetion); ok {
-		t.Log(e.String())
-		// 判断该异常是不是 TokenExpired 异常
-		if e.Code == token.ErrAccessTokenExpired.Code {
-			t.Log(e.String())
-		}
-	}
+	// exception.IsException(err, token.ErrAccessTokenExpired)
+	// if e, ok := err.(*exception.APIExcetion); ok {
+	// 	t.Log(e.String())
+	// 	// 判断该异常是不是 TokenExpired 异常
+	// 	if e.Code == token.ErrAccessTokenExpired.Code {
+	// 		t.Log(e.String())
+	// 	}
+	// }
 	if err != nil {
 		t.Fatal(err)
 	}

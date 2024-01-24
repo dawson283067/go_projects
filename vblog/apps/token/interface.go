@@ -2,6 +2,11 @@ package token
 
 import "context"
 
+const (
+	// 模块名称
+	AppName = "tokens"
+)
+
 // Token Service 接口定义
 
 type Service interface {

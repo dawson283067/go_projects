@@ -1,0 +1,103 @@
+<mxfile host="65bd71144e">
+    <diagram id="OTPSrkET33apNukwHIAq" name="Page-1">
+        <mxGraphModel dx="523" dy="434" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="UI" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="60" width="370" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="API" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="200" width="370" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="token&lt;br&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="395" y="90" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Token参数&lt;/font&gt;&lt;br&gt;&lt;br&gt;1. Header，手动传递Header参数&lt;br&gt;&lt;br&gt;2. Header，Cookie（浏览器工具，&lt;br&gt;在向后端发起请求的时候，自动&lt;br&gt;携带Header）127.0.0.1 Cookie=???&lt;br&gt;&lt;br&gt;3. URL: token泄露的风险&lt;br&gt;&lt;br&gt;4. Body: 具体的数据（业务需求）" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="60" width="220" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="endArrow=classic;html=1;fontSize=18;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="230" y="190" as="sourcePoint"/>
+                        <mxPoint x="280" y="140" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="7" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;token&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=18;" vertex="1" connectable="0" parent="6">
+                    <mxGeometry x="-0.45" y="2" relative="1" as="geometry">
+                        <mxPoint x="-2" y="8" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8" value="Token" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="220" width="120" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Token Service" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="320" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Token" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="310" y="220" width="120" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Token Service" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="310" y="320" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="" style="endArrow=classic;html=1;fontSize=12;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="10" target="11">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="290" y="250" as="sourcePoint"/>
+                        <mxPoint x="340" y="200" as="targetPoint"/>
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="13" value="" style="endArrow=classic;html=1;fontSize=12;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="8" target="9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="380" y="250" as="sourcePoint"/>
+                        <mxPoint x="380" y="330" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="160" y="290"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" value="" style="endArrow=classic;html=1;fontSize=12;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="290" y="250" as="sourcePoint"/>
+                        <mxPoint x="340" y="200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="20" value="Set Cookie 清除Token cookie" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="14">
+                    <mxGeometry x="0.4583" relative="1" as="geometry">
+                        <mxPoint x="23" y="7" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="15" value="" style="endArrow=classic;html=1;fontSize=12;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.387;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="8" target="2">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="290" y="250" as="sourcePoint"/>
+                        <mxPoint x="200" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="Set Cookie （那个网站的Cookie）" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="15">
+                    <mxGeometry x="-0.2959" y="1" relative="1" as="geometry">
+                        <mxPoint x="-41" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="" style="endArrow=classic;html=1;fontSize=12;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.6;entryY=1.028;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="10" target="2">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="280" y="330" as="sourcePoint"/>
+                        <mxPoint x="330" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="17" value="" style="endArrow=classic;html=1;fontSize=12;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="290" y="250" as="sourcePoint"/>
+                        <mxPoint x="340" y="200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="Login" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="17">
+                    <mxGeometry x="-0.3417" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="21" value="cookie=token=xxxx" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="90" width="120" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

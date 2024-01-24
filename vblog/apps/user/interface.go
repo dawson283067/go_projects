@@ -8,6 +8,16 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+const (
+	// 模块名称
+	AppName = "users"
+)
+
+// 声明一个全局的校验对象
+var (
+	v = validator.New()
+)
+
 // 面向对象
 // user.Service，设计这个模块提供的接口
 // 接口定义，一定要考虑兼容性，接口的参数不能改变
@@ -32,11 +42,6 @@ type Service interface {
 	// 用户修改
 	// 用户删除
 }
-
-// 声明一个全局的校验对象
-var (
-	v = validator.New()
-)
 
 // 为了避免对象内部出现很多空指针，指针对象未初始化，为该对象提供一个构造函数
 // 还能做一些相关兼容，补充默认值的功能，New+对象名称()
