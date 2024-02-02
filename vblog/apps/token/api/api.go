@@ -4,8 +4,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go_projects/vblog/apps/token"
 	"github.com/go_projects/vblog/conf"
+	"github.com/go_projects/vblog/ioc"
 	"github.com/go_projects/vblog/response"
 )
+
+func init() {
+	ioc.Api().Registry(token.AppName, &TokenApiHandler{})
+}
 
 func NewTokenApiHandler(svc token.Service) *TokenApiHandler {
 	return &TokenApiHandler{
@@ -16,6 +21,17 @@ func NewTokenApiHandler(svc token.Service) *TokenApiHandler {
 // 来实现对外提供 RESTful 接口
 type TokenApiHandler struct {
 	svc token.Service
+}
+
+func (h *TokenApiHandler) Init() error {
+	// 从Controller空间中获取模块的具体实现
+	// 断言该是按是满足该接口的
+	h.svc = ioc.Controller().Get(token.AppName).(token.Service)
+	return nil
+}
+
+func (h *TokenApiHandler) Destroy() error {
+	return nil
 }
 
 // 如何为Handler添加路由，如何把路由注册给Http Server

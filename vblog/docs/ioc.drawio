@@ -5,26 +5,26 @@
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="3" value="token.TokenApiHandler&lt;br&gt;(struct)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="520" y="462" width="170" height="60" as="geometry"/>
+                    <mxGeometry x="520" y="599" width="170" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="4" value="TokenServiceImpl&lt;br&gt;(struct)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="304" y="462" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="304" y="599" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="5" value="UserServiceImpl&lt;br&gt;(struct)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="104" y="462" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="104" y="599" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="8" value="UserService" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="304" y="320" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="304" y="457" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="9" value="TokenService" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="520" y="320" width="170" height="60" as="geometry"/>
+                    <mxGeometry x="520" y="457" width="170" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="10" value="" style="endArrow=classic;html=1;entryX=0.093;entryY=1.011;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryPerimeter=0;" parent="1" source="5" target="18" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="310" y="390" as="sourcePoint"/>
-                        <mxPoint x="360" y="340" as="targetPoint"/>
+                        <mxPoint x="310" y="527" as="sourcePoint"/>
+                        <mxPoint x="360" y="477" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="164" y="350"/>
+                            <mxPoint x="164" y="487"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -35,8 +35,8 @@
                 </mxCell>
                 <mxCell id="11" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="4" target="8" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="360" y="460" as="sourcePoint"/>
-                        <mxPoint x="360" y="340" as="targetPoint"/>
+                        <mxPoint x="360" y="597" as="sourcePoint"/>
+                        <mxPoint x="360" y="477" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="14" value="依赖接口" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="11" vertex="1" connectable="0">
@@ -46,8 +46,8 @@
                 </mxCell>
                 <mxCell id="12" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="3" target="9" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="440" y="390" as="sourcePoint"/>
-                        <mxPoint x="490" y="340" as="targetPoint"/>
+                        <mxPoint x="440" y="527" as="sourcePoint"/>
+                        <mxPoint x="490" y="477" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="15" value="依赖接口" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="12" vertex="1" connectable="0">
@@ -57,11 +57,11 @@
                 </mxCell>
                 <mxCell id="13" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.623;entryY=0.998;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="4" target="18" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="440" y="390" as="sourcePoint"/>
-                        <mxPoint x="490" y="340" as="targetPoint"/>
+                        <mxPoint x="440" y="527" as="sourcePoint"/>
+                        <mxPoint x="490" y="477" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="470" y="492"/>
-                            <mxPoint x="470" y="350"/>
+                            <mxPoint x="470" y="629"/>
+                            <mxPoint x="470" y="487"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -71,23 +71,23 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="18" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="110" y="80" width="580" height="210" as="geometry"/>
+                    <mxGeometry x="110" y="217" width="580" height="210" as="geometry"/>
                 </mxCell>
                 <mxCell id="19" value="TokenServiceImpl&lt;br&gt;(struct)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="330" y="115" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="330" y="252" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="20" value="UserServiceImpl&lt;br&gt;(struct)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="130" y="115" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="130" y="252" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="21" value="ioc容器&lt;br&gt;&lt;br&gt;管理着程序里面的实体对象&lt;br&gt;1. 对象的注册&lt;br&gt;2. 依赖方之间到ioc中寻找&lt;br&gt;符合条件的对象使用&lt;br&gt;3. 对象统一管理：&lt;br&gt;3.1初始化：init&lt;br&gt;3.2销毁：destroy" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="720" y="100" width="170" height="140" as="geometry"/>
+                <mxCell id="21" value="ioc容器&lt;br&gt;&lt;br&gt;管理着程序里面的实体对象&lt;br&gt;&lt;br&gt;1. 对象的注册&lt;br&gt;&lt;br&gt;2. 依赖方之间到ioc中寻找&lt;br&gt;符合条件的对象使用&lt;br&gt;&lt;br&gt;3. 对象统一管理：&lt;br&gt;3.1初始化：init&lt;br&gt;3.2销毁：destroy" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="212" width="170" height="190" as="geometry"/>
                 </mxCell>
                 <mxCell id="22" value="" style="endArrow=classic;html=1;entryX=0.217;entryY=1.014;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="8" target="18" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="340" y="400" as="sourcePoint"/>
-                        <mxPoint x="390" y="350" as="targetPoint"/>
+                        <mxPoint x="340" y="537" as="sourcePoint"/>
+                        <mxPoint x="390" y="487" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="236" y="350"/>
+                            <mxPoint x="236" y="487"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -97,14 +97,14 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="24" value="token.TokenApiHandler&lt;br&gt;(struct)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="490" y="210" width="170" height="60" as="geometry"/>
+                    <mxGeometry x="490" y="347" width="170" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="25" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="24" target="19" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="410" y="370" as="sourcePoint"/>
-                        <mxPoint x="460" y="320" as="targetPoint"/>
+                        <mxPoint x="410" y="507" as="sourcePoint"/>
+                        <mxPoint x="460" y="457" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="390" y="240"/>
+                            <mxPoint x="390" y="377"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -115,8 +115,8 @@
                 </mxCell>
                 <mxCell id="27" value="" style="endArrow=classic;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="19" target="20" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="260" y="240" as="sourcePoint"/>
-                        <mxPoint x="310" y="190" as="targetPoint"/>
+                        <mxPoint x="260" y="377" as="sourcePoint"/>
+                        <mxPoint x="310" y="327" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="28" value="寻找依赖" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="27" vertex="1" connectable="0">
@@ -125,15 +125,15 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="29" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
-                    <mxGeometry x="30" y="230" width="30" height="60" as="geometry"/>
+                    <mxGeometry x="30" y="367" width="30" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="30" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="29" target="18">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="30" y="210" as="sourcePoint"/>
-                        <mxPoint x="80" y="160" as="targetPoint"/>
+                        <mxPoint x="30" y="347" as="sourcePoint"/>
+                        <mxPoint x="80" y="297" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="80" y="230"/>
-                            <mxPoint x="80" y="130"/>
+                            <mxPoint x="80" y="367"/>
+                            <mxPoint x="80" y="267"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -141,6 +141,35 @@
                     <mxGeometry x="-0.5309" y="-1" relative="1" as="geometry">
                         <mxPoint y="-39" as="offset"/>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="32" value="初始化程序配置，然后再进行ioc的操作" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="120" width="580" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="710" width="580" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" target="33">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="60" y="430" as="sourcePoint"/>
+                        <mxPoint x="130" y="480" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="60" y="735"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="35" value="参数给ioc" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="34">
+                    <mxGeometry x="-0.2406" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="36" value="对象通用管理" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="170" y="730" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="580" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="API路由注册" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="730" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
