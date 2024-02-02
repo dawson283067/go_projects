@@ -43,6 +43,10 @@ func (t *TestStruct) Destroy() error {
 
 }
 
+func (t *TestStruct) XXX() error {
+
+}
+
 // container = map[string]IocObject
 ioc.Regirstry("service name", &TestStruct)
 
@@ -77,8 +81,29 @@ controller_container = map[string]IocObject
 
 ### 实现ioc
 
+封装Container
+```go
+func TestContainerGetAndRegistry(t *testing.T) {
+	c := ioc.NewContainer()
+	c.Registry("TestStruct", &TestStruct{})
+	t.Log(c.Get("TestStruct"))
+
+	// 通过断言来使用
+	c.Get("TestStruct").(*TestStruct).XXX()
+}
+```
 
 
+封装Manager
+```go
+func TestManageGetAndRegistry(t *testing.T) {
+	ioc.Controller().Registry("TestStruct", &TestStruct{})
+	t.Log(ioc.Controller().Get("TestStruct"))
+
+	// 断言使用
+	ioc.Controller().Get("TestStruct").(*TestStruct).XXX()
+}
+```
 
 
 
