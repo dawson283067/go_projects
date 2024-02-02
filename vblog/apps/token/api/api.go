@@ -40,7 +40,7 @@ func (h *TokenApiHandler) Login(c *gin.Context) {
 	// defer c.Request.Body.Close()
 	// json unmarshal json.Unmarshal(body, o)
 	
-	// Body 必须是json
+	// Body 必须是json。这里就是反序列化。
 	req := token.NewIssueTokenRequest("", "")
 	if err := c.BindJSON(req); err != nil {
 		response.Failed(c, err)
