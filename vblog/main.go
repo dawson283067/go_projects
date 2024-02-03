@@ -3,12 +3,11 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go_projects/vblog/conf"
-	"github.com/go_projects/vblog/ioc"
+	"github.com/go_projects/vblog/ioc"	
 
 	// 通过import方法 完成注册
-	_ "github.com/go_projects/vblog/apps/token/api"
-	_ "github.com/go_projects/vblog/apps/token/impl"
-	_ "github.com/go_projects/vblog/apps/user/impl"
+	// 这样写，就不用再动main这里的代码了。将注册放到apps包下的init.go文件中
+	_ "github.com/go_projects/vblog/apps"
 )
 
 func main() {
