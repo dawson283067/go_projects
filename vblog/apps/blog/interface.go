@@ -1,10 +1,18 @@
 package blog
 
-import "context"
+import (
+	"context"
+
+	"github.com/go-playground/validator/v10"
+)
 
 const (
 	// 模块名称
 	AppName = "blogs"
+)
+
+var (
+	v = validator.New()
 )
 
 // Blog Service接口定义，CRUD
@@ -21,24 +29,58 @@ type Service interface {
 	// 为了与GRPC保持一致，返回一个删除的对象
 	DeleteBlog(context.Context, *DeleteBlogReqeust) (*Blog, error)
 	// 文章状态修改，比如发布
-	ChangedBlogStatus(context.Context, *ChangedBlogStatus) (*Blog, error)
+	ChangedBlogStatus(context.Context, *ChangedBlogStatusRequest) (*Blog, error)
 	// 文章审核
 	AuditBlog(context.Context, *AuditInfo) (*Blog, error)
 }
 
-type QueryBlogRequest struct {
+func NewQueryBlogRequest() *QueryBlogRequest {
+	return &QueryBlogRequest{
+		PageSize: 20,
+		PageNumber: 1,
+	}
+}
 
+type QueryBlogRequest struct {
+	// 分页大小，一个多少个
+	PageSize int
+	// 当前页，查询哪一页的数据
+	PageNumber int
+}
+
+func (req *QueryBlogRequest) Limit() int {
+	return req.PageSize
+}
+
+// 1, 0          第一页，偏移是0
+// 2, 20         第二页，偏移是20 * 1
+// 3, 20 * 2     第三页，偏移是20 * 2
+// 4，20 * 3     第四页，偏移是20 * 3
+func (req *QueryBlogRequest) Offset() int {
+	return req.PageSize * (req.PageNumber - 1)
+}
+
+func NewDescribeUserRequest(id string) *DescribeBlogReqeust {
+	return &DescribeBlogReqeust{
+		Id: id,
+	}
 }
 
 type DescribeBlogReqeust struct {
-
+	Id string
 }
 
 type UpdateBlogRequest struct {
 
 }
 
-type DeleteBlogReqeust struct {
+func NewDeleteBlogRequest(id string) *DeleteBlogReqeust {
+	return &DeleteBlogReqeust{
+		Id: id, 
+	}
+}
 
+type DeleteBlogReqeust struct {
+	Id string
 }
 
