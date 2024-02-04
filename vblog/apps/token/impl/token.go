@@ -6,6 +6,7 @@ import (
 
 	"github.com/go_projects/vblog/apps/token"
 	"github.com/go_projects/vblog/apps/user"
+	"github.com/go_projects/vblog/exception"
 )
 
 // 登录：颁发令牌
@@ -90,6 +91,10 @@ func (i *TokenServiceImpl) ValidateToken(
 	ctx context.Context,
 	in *token.ValidateTokenRequest) (
 	*token.Token, error) {
+
+	if in.AccessToken == "" {
+		return nil, exception.ErrUnauthorized
+	}
 	
 	// 1. 查询Token，判断令牌是否存在
 	tk, err := i.getToken(ctx, in.AccessToken)
