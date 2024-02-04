@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/go_projects/vblog/common"
 )
 
 const (
@@ -70,8 +71,21 @@ type DescribeBlogReqeust struct {
 	Id string
 }
 
-type UpdateBlogRequest struct {
+func NewUpdateBlogRequest(id string) *UpdateBlogRequest {
+	return &UpdateBlogRequest{
+		Id: id,
+		UpdateMode: common.UPDATE_MODE_PUT,
+		CreateBlogRequest: NewCreateBlogRequest(),
+	}
+}
 
+type UpdateBlogRequest struct {
+	// 被更新的博客Id
+	Id string `json:"id"`
+	// 更新模式
+	UpdateMode common.UpdateMode `json:"update_mode"`
+	// 更新时的数据
+	*CreateBlogRequest
 }
 
 func NewDeleteBlogRequest(id string) *DeleteBlogReqeust {
