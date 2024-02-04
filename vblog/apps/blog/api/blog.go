@@ -3,13 +3,21 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go_projects/vblog/apps/blog"
+	"github.com/go_projects/vblog/apps/token"
 	"github.com/go_projects/vblog/common"
 	"github.com/go_projects/vblog/response"
 )
 
 // + 创建博客：POST /vblogs/api/v1/blogs
 func (h *blogApiHandler) CreateBlog(c *gin.Context) {
+
 	req := blog.NewCreateBlogRequest()
+
+	// 后面请求如何获取 中间件信息
+	if v, ok := c.Get(token.TOKEN_MIDDLEWARE_KEY); ok {
+		req.CreateBy = v.(*token.Token).UserName
+	}
+
 	if err := c.BindJSON(req); err != nil {
 		response.Failed(c, err)
 		return
