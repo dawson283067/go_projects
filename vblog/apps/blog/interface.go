@@ -2,7 +2,9 @@ package blog
 
 import (
 	"context"
+	"strconv"
 
+	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/go_projects/vblog/common"
 )
@@ -40,6 +42,19 @@ func NewQueryBlogRequest() *QueryBlogRequest {
 		PageSize: 20,
 		PageNumber: 1,
 	}
+}
+
+func NewQueryBlogRequestFromGin(c *gin.Context) *QueryBlogRequest {
+	req := NewQueryBlogRequest()
+	ps := c.Query("page_size")
+	if ps != "" {
+		req.PageSize, _ = strconv.Atoi(ps)
+	}
+	pn := c.Query("page_number")
+	if pn != "" {
+		req.PageNumber, _ = strconv.Atoi(pn)
+	}
+	return req
 }
 
 type QueryBlogRequest struct {
