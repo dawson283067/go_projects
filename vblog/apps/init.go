@@ -7,4 +7,5 @@ import (
 	_ "github.com/go_projects/vblog/apps/token/impl"
 	_ "github.com/go_projects/vblog/apps/user/impl"
 	_ "github.com/go_projects/vblog/apps/blog/impl"
+	_ "github.com/go_projects/vblog/apps/blog/api"
 )
