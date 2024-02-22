@@ -41,6 +41,11 @@ func (i *blogServiceImpl) QueryBlog(ctx context.Context, in *blog.QueryBlogReque
 	// 1. 初始化查询对象
 	query := i.db.WithContext(ctx).Model(blog.Blog{})
 
+	// 补充查询条件
+	if in.CreateBy != "" {
+		query = query.Where("create_by = ?", in.CreateBy)
+	}
+
 	// 查询总数
 	err := query.Count(&set.Total).Error
 	if err != nil {
@@ -59,6 +64,8 @@ func (i *blogServiceImpl) QueryBlog(ctx context.Context, in *blog.QueryBlogReque
 	
 	return set, nil
 }
+
+
 // 获取博客详情
 func (i *blogServiceImpl) DescribeBlog(ctx context.Context, in *blog.DescribeBlogReqeust) (*blog.Blog, error) {
 		
@@ -72,6 +79,8 @@ func (i *blogServiceImpl) DescribeBlog(ctx context.Context, in *blog.DescribeBlo
 	}
 	return ins, nil	
 }
+
+
 // 更新博客
 // 1, 全量更新：对象的替换
 // 2, 部分更新：(old obj)Patch机制 --> new obj --> save
@@ -108,7 +117,13 @@ func (i *blogServiceImpl) UpdateBlog(ctx context.Context, req *blog.UpdateBlogRe
 
 	// 更新数据库
 	// UPDATE `blogs` SET `id`=48,`created_at`=1707013985,`updated_at`=1707015070,`title`='go语言全栈开发V2',`author`='oldyu',`content`='xxx',`summary`='xx',`tags`='{"目录":"Go语言"}' WHERE id = 48
-	err = i.db.WithContext(ctx).Model(&blog.Blog{}).Where("id = ?", ins.Id).Updates(ins).Error
+	// 原来的版本：err = i.db.WithContext(ctx).Model(&blog.Blog{}).Where("id = ?", ins.Id).Updates(ins).Error
+	stmt := i.db.WithContext(ctx).Model(&blog.Blog{}).Where("id = ?", ins.Id)
+	if req.CreateBy != "" {
+		stmt = stmt.Where("create_by = ?", ins.CreateBy)
+	}
+	err = stmt.Updates(ins).Error
+	
 	if err != nil {
 		return nil, err
 	}

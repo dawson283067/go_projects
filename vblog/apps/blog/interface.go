@@ -47,6 +47,7 @@ func NewQueryBlogRequest() *QueryBlogRequest {
 func NewQueryBlogRequestFromGin(c *gin.Context) *QueryBlogRequest {
 	req := NewQueryBlogRequest()
 	ps := c.Query("page_size")
+	req.CreateBy = c.Query("create_by")
 	if ps != "" {
 		req.PageSize, _ = strconv.Atoi(ps)
 	}
@@ -62,6 +63,8 @@ type QueryBlogRequest struct {
 	PageSize int
 	// 当前页，查询哪一页的数据
 	PageNumber int
+	// 谁创建的文章
+	CreateBy string
 }
 
 func (req *QueryBlogRequest) Limit() int {
