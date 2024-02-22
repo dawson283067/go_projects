@@ -13,6 +13,8 @@ var (
 )
 
 func init() {
+	// new(TokenServiceImpl)
+	// _ = new(TokenServiceImpl)，等同于&TokenServiceImpl{}
 	ioc.Controller().Registry(token.AppName, &TokenServiceImpl{})
 }
 

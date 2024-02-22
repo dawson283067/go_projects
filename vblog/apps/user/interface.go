@@ -1,7 +1,7 @@
 package user
 
 import (
-	"context"	
+	"context"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/infraboard/mcube/tools/pretty"
@@ -47,7 +47,7 @@ type Service interface {
 // 还能做一些相关兼容，补充默认值的功能，New+对象名称()
 func NewCreateUserRequest() *CreateUserRequest {
 	return &CreateUserRequest{
-		Role:  ROLE_MEMBER,
+		Role:  ROLE_VISITOR,
 		Label: map[string]string{},
 	}
 }
@@ -56,11 +56,10 @@ func NewCreateUserRequest() *CreateUserRequest {
 type CreateUserRequest struct {
 	Username string `json:"username" validate:"required" gorm:"column:username"`
 	Password string `json:"password" validate:"required" gorm:"column:password"`
-	Role     Role   `json:"role" validate:"required" gorm:"column:role"`
+	Role     Role   `json:"role" gorm:"column:role"`
 	// https://gorm.io/docs/serializer.html
 	// 把map序列化，然后放到label的字段里。如果没有serializer，数据库是不知道怎么放这种字段的
 	Label map[string]string `json:"label" gorm:"column:label;serializer:json"`
-	
 }
 
 func (req *CreateUserRequest) HashedPassword() {
@@ -137,12 +136,12 @@ func (u *UserSet) String() string {
 	return pretty.ToJSON(u)
 }
 
-func NewDescribeUserRequest(uid int) *DescribeUserRequest {
+func NewDescribeUserRequest(uid string) *DescribeUserRequest {
 	return &DescribeUserRequest{
 		UserId: uid,
 	}
 }
 
 type DescribeUserRequest struct {
-	UserId int
+	UserId string
 }

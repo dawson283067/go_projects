@@ -9,6 +9,8 @@ import (
 )
 
 // + 创建博客：POST /vblogs/api/v1/blogs
+// required('username','admin') 伪代码，基于用户判断
+// required(visitor/admin) 伪代码，RBAC
 func (h *blogApiHandler) CreateBlog(c *gin.Context) {
 
 	req := blog.NewCreateBlogRequest()
@@ -29,7 +31,6 @@ func (h *blogApiHandler) CreateBlog(c *gin.Context) {
 	}
 	response.Success(c, ins)
 }
-
 
 // + 修改博客（部分）：PATCH /vblogs/api/v1/blogs/:id
 // /vblogs/api/v1/blogs/10 --> id = 10
@@ -70,7 +71,6 @@ func (h *blogApiHandler) UpdateBlog(c *gin.Context) {
 	response.Success(c, ins)
 }
 
-
 // + 删除博客：DELETE /vblogs/api/v1/blogs/:id
 func (h *blogApiHandler) DeleteBlog(c *gin.Context) {
 	req := blog.NewDeleteBlogRequest(c.Param("id"))
@@ -79,9 +79,8 @@ func (h *blogApiHandler) DeleteBlog(c *gin.Context) {
 		response.Failed(c, err)
 		return
 	}
-	response.Success(c, ins)	
+	response.Success(c, ins)
 }
-
 
 // + 查询列表：GET /vblogs/api/v1/blogs?page_size=10&page_number=2
 func (h *blogApiHandler) QueryBlog(c *gin.Context) {
@@ -91,9 +90,8 @@ func (h *blogApiHandler) QueryBlog(c *gin.Context) {
 		response.Failed(c, err)
 		return
 	}
-	response.Success(c, set)	
+	response.Success(c, set)
 }
-
 
 // + 查询详情：GET /vblogs/api/v1/blogs/:id
 func (h *blogApiHandler) DescribeBlog(c *gin.Context) {
@@ -103,6 +101,5 @@ func (h *blogApiHandler) DescribeBlog(c *gin.Context) {
 		response.Failed(c, err)
 		return
 	}
-	response.Success(c, ins)	
+	response.Success(c, ins)
 }
-

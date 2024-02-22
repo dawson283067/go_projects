@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go_projects/vblog/apps/blog"
+	"github.com/go_projects/vblog/apps/user"
 	"github.com/go_projects/vblog/ioc"
 	"github.com/go_projects/vblog/middleware"
 )
@@ -13,7 +14,7 @@ func init() {
 
 // blog.Service接口，是直接注册给ioc，不需要对暴露
 type blogApiHandler struct {
-	svc blog.Service	
+	svc blog.Service
 }
 
 func (i *blogApiHandler) Init() error {
@@ -26,13 +27,15 @@ func (i *blogApiHandler) Destroy() error {
 }
 
 // 让ioc帮我们完成接口的路由注册 ioc.GinApi
-// type GinApi interface {
-// 	// 基础约束
-// 	Object
-// 	// 额外约束
-// 	// ioc.Api().Get(token.AppName).(*api.TokenApiHandler).Registry(rr)
-// 	Registry(rr gin.IRouter)
-// }
+//
+//	type GinApi interface {
+//		// 基础约束
+//		Object
+//		// 额外约束
+//		// ioc.Api().Get(token.AppName).(*api.TokenApiHandler).Registry(rr)
+//		Registry(rr gin.IRouter)
+//	}
+//
 // ioc调用这个接口来完成注册，ioc会把这个gin.IRouter传给我们，拿到这个router后，就能做事情了
 func (i *blogApiHandler) Registry(rr gin.IRouter) {
 
@@ -49,8 +52,7 @@ func (i *blogApiHandler) Registry(rr gin.IRouter) {
 	r.POST("/", i.CreateBlog)
 	r.PATCH("/:id", i.PatchBlog)
 	r.PUT("/:id", i.UpdateBlog)
-	r.DELETE("/:id", i.DeleteBlog)
-	
+	// 只允许管理员才能删除（认证后才能鉴权）
+	r.DELETE("/:id", middleware.Required(user.ROLE_ADMIN), i.DeleteBlog)
+
 }
-
-

@@ -14,6 +14,6 @@ type Role int
 const (
 	// 当 值为0的时候，就是默认值
 	// 枚举命名风格：
-	ROLE_MEMBER Role = iota
+	ROLE_VISITOR Role = iota
 	ROLE_ADMIN
 )

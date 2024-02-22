@@ -6,7 +6,7 @@
 
 单元测试要符合条件：编写一个单元测试函数来进行目标函数的测试（unittest.Sum）
 
-+ 单元测试的函数需要放到一个包里，独立一个测试包，unittest_test。目标测试函数的名称TestSum。unittest_test.TestSum
++ 单元测试的函数需要放到一个包里，需要独立一个测试包，unittest_test。目标测试函数的名称TestSum。unittest_test.TestSum
 + 默认规则：
   + 单元测试文件的名称：xxx_test.go 
     + xxx.go 是被测试的文件名称

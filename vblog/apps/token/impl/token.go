@@ -107,6 +107,13 @@ func (i *TokenServiceImpl) ValidateToken(
 		return nil, err
 	}
 
-	// 3. 令牌合法返回令牌
+	// 3. 补充用户角色
+	u, err := i.user.DescribeUser(ctx, user.NewDescribeUserRequest(tk.UserId))
+	if err != nil {
+		return nil, err
+	}
+	tk.Role = u.Role
+
+	// 4. 令牌合法返回令牌
 	return tk, nil
 }

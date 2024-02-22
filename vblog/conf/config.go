@@ -18,7 +18,7 @@ var config *Config
 
 // 这里就可以补充逻辑。这是conf包的普通函数。
 func C() *Config {
-	// sync.Lock
+	// sync.Lock 这里出现并发的概率很小
 	if config == nil {
 		// 给个默认值
 		config = DefaultConfig()
@@ -54,7 +54,7 @@ port=3306
 */
 type Config struct {
 	Application *Application `json:"app" yaml:"app" toml:"app"`
-	MySQL *MySQL `json:"mysql" yaml:"mysql" toml:"mysql"`
+	MySQL       *MySQL       `json:"mysql" yaml:"mysql" toml:"mysql"`
 }
 
 type Application struct {
