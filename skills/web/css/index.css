@@ -3,6 +3,10 @@
     font-size: 20px;  
 } */
 
+* {
+    margin: 0px;
+}
+
 .paragraph {
     color: red;
     font-size: 20px; 
@@ -31,3 +35,11 @@
 
 /* 伪类选择器，对元素的操作更加灵活 */
 /* div p:first-child */
+
+
+.div-item {
+    width: 200px;
+    height: 20px;
+}
+
+
