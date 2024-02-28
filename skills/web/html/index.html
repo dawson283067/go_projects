@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML入门</title>
+</head>
+<body>
+    <h1>显示的页面</h1>
+    <h2>显示的页面</h2>
+
+    <!-- 标签 可以理解为一个 class/struct -->
+    <!-- 实例化一个标签的元素 p{value: 这是段落1}-->
+    <p id="p1">这是段落1</p>
+    <p id="p2" class="a" style="color: red">这是段落2</p>
+    <a href="https://www.baidu.com">百度</a>
+    <!-- <img src="" alt="" width="80px" height="80px" usemap="#planetmap"> -->
+    <!-- <map name="planetmap"> -->
+
+    </map>
+
+    <table border="1">
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <!-- 多个元素的一个容器 -->
+    <!-- 对一组元素进行统一设置 -->
+    <!-- 常用于布局 -->
+    <!-- div 块元素 -->
+    <div style="width: 200px; height: 200px; background-color: aquamarine;"></div>
+    <div style="width: 200px; height: 200px; background-color: aquamarine;"></div>
+
+    <!-- 行内 -->
+    <span style="width: 200px; height: 200px; background-color: aquamarine;">test</span>
+    <span style="width: 200px; height: 200px; background-color: aquamarine;">test</span>
+</body>
+<script>
+    var p1 = document.getElementById('p1')
+    p1.innerText='被JS处理后'
+</script>
+</html>
+
