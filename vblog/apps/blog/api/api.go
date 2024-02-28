@@ -54,5 +54,4 @@ func (i *blogApiHandler) Registry(rr gin.IRouter) {
 	r.PUT("/:id", i.UpdateBlog)
 	// 只允许管理员才能删除（认证后才能鉴权）
 	r.DELETE("/:id", middleware.Required(user.ROLE_ADMIN), i.DeleteBlog)
-
 }
