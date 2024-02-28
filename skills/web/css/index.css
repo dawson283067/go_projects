@@ -1,0 +1,33 @@
+/* p {
+    color: red;
+    font-size: 20px;  
+} */
+
+.paragraph {
+    color: red;
+    font-size: 20px; 
+}
+
+#p1 {
+    color: blue;
+    font-size: 20px; 
+}
+
+/* 群选择器，通过逗号分隔 */
+
+/* 全局选择器  ----> *  */
+/* 通常做样式初始化 */
+
+/* 层级选择器 */
+/* 子选择器 */
+/* div>p */
+/* 包含选择器 */
+/* div下的所有p，div p，用空格表示包含 */
+
+/* 兄弟和相邻 */
+
+/* 属性选择器 */
+/* [type=submit] */
+
+/* 伪类选择器，对元素的操作更加灵活 */
+/* div p:first-child */
