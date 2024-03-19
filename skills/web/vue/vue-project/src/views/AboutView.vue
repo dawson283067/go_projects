@@ -13,8 +13,30 @@
         <ul>
             <li v-for="(value) in names" :key="value">{{value}}</li>
         </ul>
-        <ComponentA :countP="20"></ComponentA>
+        <!-- countP -->
+        <!-- props: countP -->
+        <!-- countChanged: func -->
+        <!-- v-model:countP, countP是一个双向绑定属性 -->
+        <!-- countP属性， -->
+        <!-- countChangedHandler countP = e, 事件的名称：update:CountP，这个名字是vue约定俗成的-->
+        <!-- 默认属性：modelValue ==> v-model:modelValue -->
+        <ComponentA v-model="countP"></ComponentA><br><br>
+        <span>鼠标位置：({{x}},{{y}})</span>
+
+        <!-- 插槽 -->
+        <LayoutView>
+            <template #header>
+                <div>Header</div>
+            </template>
+            <template #default>
+                <div>Main</div>
+            </template>
+            <template #footer>
+                <div>Footer</div>
+            </template>
+        </LayoutView>
     </div>
+   
 </template>
 
 <script setup>
@@ -43,6 +65,19 @@ const clickButton = () => {
 const inputMessage = ref('默认值')
 
 const names = ref(['张三','李四'])
+
+// 父组件处理来自子组件触发的事件
+const countP = ref(20)
+// const countChangedHandler = (e) => {
+//     countP.value = e
+// }
+
+// 使用组合式函数
+import { useMouse } from "./mouse";
+const {x,y} = useMouse()
+
+// 引入带插槽的组件
+import LayoutView from "./LayoutView.vue";
 </script>
 
 <style lang="css" scoped>
