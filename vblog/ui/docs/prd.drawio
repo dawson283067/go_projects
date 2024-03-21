@@ -1,0 +1,113 @@
+<mxfile host="65bd71144e">
+    <diagram id="RkAIQhVmd1cJtcXhRYkV" name="Page-1">
+        <mxGraphModel dx="1596" dy="1671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="顶部导航" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="40" width="710" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="老喻的博客系统" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="50" width="110" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="登录/后台" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="660" y="50" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="120" width="710" height="290" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="文章" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="150" width="660" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="文章" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="236" width="660" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="文章" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="318" width="660" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="450" width="710" height="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="用户名" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="210" y="490" width="350" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="密码" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="210" y="540" width="350" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="记住我" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="210" y="590" width="70" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="登录" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="210" y="630" width="350" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="顶部导航" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-766" y="41" width="710" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="文章" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-736" y="319" width="660" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="文章" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-736" y="237" width="660" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="文章" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-736" y="151" width="660" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-766" y="121" width="710" height="290" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="老喻的博客系统" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-756" y="51" width="110" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="退出" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-116" y="51" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="630" y="260" as="sourcePoint"/>
+                        <mxPoint x="680" y="210" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="820" y="65"/>
+                            <mxPoint x="820" y="310"/>
+                            <mxPoint x="820" y="565"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="22" value="" style="endArrow=classic;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="9" target="18">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-30" y="620" as="sourcePoint"/>
+                        <mxPoint x="20" y="570" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-233" y="565"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" value="跳转到后台" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="22">
+                    <mxGeometry x="-0.0024" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="24" value="前台" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="375" y="-31" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="后台" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="-440" y="-30" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="前台" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-200" y="50" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="侧边栏导航" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-750" y="140" width="120" height="250" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="业务内容区" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-610" y="140" width="530" height="250" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="文章管理" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-736" y="151" width="86" height="29" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="810" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
